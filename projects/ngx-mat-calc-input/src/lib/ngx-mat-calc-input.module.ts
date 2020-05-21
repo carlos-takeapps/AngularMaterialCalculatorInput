@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
 import { NgxMatCalcInputComponent } from './ngx-mat-calc-input.component';
-import {MatFormFieldModule} from '@angular/material/form-field';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    NgxMatCalcInputComponent,
-    
+    NgxMatCalcInputComponent
   ],
   imports: [
-    MatFormFieldModule
+      FormsModule, ReactiveFormsModule
   ],
   exports: [NgxMatCalcInputComponent]
 })
