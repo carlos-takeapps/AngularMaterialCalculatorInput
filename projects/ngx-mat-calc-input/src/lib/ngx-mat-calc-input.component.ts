@@ -3,13 +3,8 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'ngx-mat-calc-input',
-  template: `
-    <p>
-      <mat-label>ngx-mat-calc-input works with material!</mat-label>
-    </p>
-  `,
-  styles: [
-  ]
+  templateUrl: './ngx-mat-calc-input.component.html',
+  styleUrls: ['./ngx-mat-calc-input.component.scss']
 })
 export class NgxMatCalcInputComponent implements OnInit {
 
