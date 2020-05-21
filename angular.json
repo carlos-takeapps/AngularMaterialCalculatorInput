@@ -1,0 +1,171 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "AngularMaterialCalculatorInput": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/AngularMaterialCalculatorInput",
+      "sourceRoot": "projects/AngularMaterialCalculatorInput/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/AngularMaterialCalculatorInput",
+            "index": "projects/AngularMaterialCalculatorInput/src/index.html",
+            "main": "projects/AngularMaterialCalculatorInput/src/main.ts",
+            "polyfills": "projects/AngularMaterialCalculatorInput/src/polyfills.ts",
+            "tsConfig": "projects/AngularMaterialCalculatorInput/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/AngularMaterialCalculatorInput/src/favicon.ico",
+              "projects/AngularMaterialCalculatorInput/src/assets"
+            ],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/purple-green.css",
+              "projects/AngularMaterialCalculatorInput/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/AngularMaterialCalculatorInput/src/environments/environment.ts",
+                  "with": "projects/AngularMaterialCalculatorInput/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "AngularMaterialCalculatorInput:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "AngularMaterialCalculatorInput:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "AngularMaterialCalculatorInput:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/AngularMaterialCalculatorInput/src/test.ts",
+            "polyfills": "projects/AngularMaterialCalculatorInput/src/polyfills.ts",
+            "tsConfig": "projects/AngularMaterialCalculatorInput/tsconfig.spec.json",
+            "karmaConfig": "projects/AngularMaterialCalculatorInput/karma.conf.js",
+            "assets": [
+              "projects/AngularMaterialCalculatorInput/src/favicon.ico",
+              "projects/AngularMaterialCalculatorInput/src/assets"
+            ],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/purple-green.css",
+              "projects/AngularMaterialCalculatorInput/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/AngularMaterialCalculatorInput/tsconfig.app.json",
+              "projects/AngularMaterialCalculatorInput/tsconfig.spec.json",
+              "projects/AngularMaterialCalculatorInput/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/AngularMaterialCalculatorInput/e2e/protractor.conf.js",
+            "devServerTarget": "AngularMaterialCalculatorInput:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "AngularMaterialCalculatorInput:serve:production"
+            }
+          }
+        }
+      }
+    },
+    "ngx-mat-calc-input": {
+      "projectType": "library",
+      "root": "projects/ngx-mat-calc-input",
+      "sourceRoot": "projects/ngx-mat-calc-input/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/ngx-mat-calc-input/tsconfig.lib.json",
+            "project": "projects/ngx-mat-calc-input/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-mat-calc-input/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-mat-calc-input/src/test.ts",
+            "tsConfig": "projects/ngx-mat-calc-input/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-mat-calc-input/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ngx-mat-calc-input/tsconfig.lib.json",
+              "projects/ngx-mat-calc-input/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "AngularMaterialCalculatorInput"
+}
