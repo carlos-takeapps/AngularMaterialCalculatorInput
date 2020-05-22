@@ -93,4 +93,13 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number> {
 
   onContainerClick(event: MouseEvent): void {
   }
+
+  toggleCalc(): void {
+    var x = document.getElementById("calc-keyboard");
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
+  }
 }
