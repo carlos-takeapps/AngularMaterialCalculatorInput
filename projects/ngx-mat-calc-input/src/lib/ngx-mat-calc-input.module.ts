@@ -20,4 +20,5 @@ import { MatInputModule } from '@angular/material/input';
   ],
   exports: [NgxMatCalcInputComponent]
 })
-export class NgxMatCalcInputModule { }
+export class NgxMatCalcInputModule {
+}

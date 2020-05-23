@@ -38,7 +38,7 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number> {
   }
 
   @HostBinding()
-  id = `example-tel-input-${NgxMatCalcInputComponent.nextId++}`;
+  id = `ngx-mat-calc-input-${NgxMatCalcInputComponent.nextId++}`;
 
   @Input()
   get placeholder() {
@@ -75,7 +75,10 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number> {
     this._disabled = coerceBooleanProperty(value);
     this.stateChanges.next();
   }
+
   private _disabled = false;
+
+  showKeyboard: boolean = true;
 
   constructor(
     @Optional() @Self() public ngControl: NgControl,
@@ -86,6 +89,10 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number> {
     });
   }
 
+  toggleKeyboard(): void {
+    this.showKeyboard = !this.showKeyboard;
+  }
+
   ngOnDestroy() {
     this.stateChanges.complete();
     this.fm.stopMonitoring(this.elRef.nativeElement);
@@ -94,12 +101,4 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number> {
   onContainerClick(event: MouseEvent): void {
   }
 
-  toggleCalc(): void {
-    var x = document.getElementById("calc-keyboard");
-    if (x.style.display === "none") {
-      x.style.display = "block";
-    } else {
-      x.style.display = "none";
-    }
-  }
 }
