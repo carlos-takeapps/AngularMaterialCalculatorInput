@@ -8,7 +8,7 @@
     cursor: pointer;
 }
 
-@import url(https://fonts.googleapis.com/css?family=Quicksand:400, 700);
+@import url('https://fonts.googleapis.com/css?family=Quicksand:400, 700');
 
 /* Basic reset */
 * {
@@ -17,23 +17,16 @@
     box-sizing: border-box;
 
     /* Text styling */
-    font: 400 46px "Quicksand", sans-serif;
-    color: #fff;
+    //font: 100 .4rem "Quicksand", sans-serif;
+    //color: rgb(7, 0, 0);
     text-align: center;
 }
 
-/* BG gradient */
-html {
-    background: #229ad7;
-    background-image: linear-gradient(to bottom, rgba(34, 156, 219, 1) 0%, rgba(10, 114, 187, 1) 100%);
-    background-attachment: fixed;
-}
-
 /* Calculator */
-#calculator {
+.input-calc-compnent {
     width: 325px;
-    height: auto;
-    margin: 100px auto;
+    //height: auto;
+    //margin: 100px auto;
     padding: 20px 20px 9px;
     /* background: #none; */
     /* background: linear-gradient(#c9dd84, #9fcb96); */
@@ -45,7 +38,7 @@ html {
     float: left;
 }
 
-/* Screen styling */
+/* Screen styling 
 
 .top .screen {
     height: 90px;
@@ -54,13 +47,13 @@ html {
     background: rgba(154, 185, 188, 0.8);
     border-radius: 5px;
     margin-bottom: 10px;
-    /* Typography */
     font-size: 30px;
     line-height: 90px;
     color: white;
     text-align: right;
     overflow: auto;
 }
+*/
 
 /* Clear floats */
 .keys {
@@ -73,16 +66,16 @@ html {
     float: left;
     position: relative;
     top: 0;
-    background: #523d98;
-    font-size: 27px;
+    background: #dadada;
+    font-size: .7em;
     cursor: pointer;
-    width: 66px;
-    height: 46px;
+    width: 33px;
+    height: 23px;
     border-radius: 5px;
     box-shadow: 0px 4px rgba(0, 0, 0, 0.2);
-    margin: 0 7px 11px 0;
-    color: #f1c851;
-    line-height: 46px;
+    margin: 0 3px 5px 0;
+    color: #404040;
+    line-height: 23px;
     text-align: center;
     user-select: none;
     outline: 0 solid;
