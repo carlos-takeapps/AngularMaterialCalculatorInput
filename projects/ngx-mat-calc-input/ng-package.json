@@ -2,6 +2,13 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/ngx-mat-calc-input",
   "lib": {
-    "entryFile": "src/public-api.ts"
+    "entryFile": "src/public-api.ts",
+    "cssUrl": "inline",
+    "styleIncludePaths": [
+      "src/assets/styles",
+      "../../node_modules/bourbon/app/assets/stylesheets",
+      "../../node_modules/bourbon-neat/app/assets/stylesheets",
+      "../../node_modules/bootstrap/dist/scss/bootstrap"
+    ]
   }
 }

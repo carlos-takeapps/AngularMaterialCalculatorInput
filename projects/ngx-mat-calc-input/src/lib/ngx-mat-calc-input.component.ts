@@ -5,6 +5,7 @@ import { FormBuilder } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { NgControl } from "@angular/forms";
 import { Subject } from 'rxjs';
+import { faCalculator } from "@fortawesome/free-solid-svg-icons";
 
 
 @Component({
@@ -14,7 +15,10 @@ import { Subject } from 'rxjs';
   providers: [{ provide: MatFormFieldControl, useExisting: NgxMatCalcInputComponent }],
 })
 export class NgxMatCalcInputComponent implements MatFormFieldControl<number> {
-  private _value: number;
+  private currentValue: number;
+  private previousValue: number = 0;
+  private currentOperator: string;
+
   private static nextId = 0;
   private _placeholder: string;
 
@@ -23,17 +27,23 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number> {
   controlType?: string = "ngx-mat-calc-input";
   autofilled?: boolean;
 
+  calcIcon = faCalculator;
+
+  private _disabled = false;
+
+  showKeyboard: boolean = false;
+
   @HostBinding('class.floating')
   get shouldLabelFloat() {
     return this.focused || !this.empty;
   }
 
   get value(): number {
-    return this._value;
+    return this.currentValue;
   }
 
   set value(value: number) {
-    this._value = value;
+    this.currentValue = value;
     this.stateChanges.next();
   }
 
@@ -76,10 +86,6 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number> {
     this.stateChanges.next();
   }
 
-  private _disabled = false;
-
-  showKeyboard: boolean = true;
-
   constructor(
     @Optional() @Self() public ngControl: NgControl,
     fb: FormBuilder, private fm: FocusMonitor, private elRef: ElementRef<HTMLElement>) {
@@ -87,7 +93,41 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number> {
       this.focused = !!origin;
       this.stateChanges.next();
     });
+
+    this.value = 0;
   }
+
+  clickNumber($event): void {
+    this.value = (this.value * 10) + $event.target.textContent;
+  }
+
+  clickOperator($event): void {
+    let newOperator = $event.target.textContent;
+    this.previousValue = this.value;
+
+    switch (this.currentOperator) {
+      case "+":
+        this.value = this.previousValue + this.value;
+        break;
+      case "-":
+        this.value = this.previousValue - this.value;
+        break;
+      case "*":
+        this.value = this.previousValue * this.value;
+        break;
+      case "/":
+        this.value = this.previousValue / this.value;
+        break;
+      case "^":
+        this.value = this.previousValue ^ this.value;
+        break;
+    }
+
+    this.currentOperator = newOperator;
+  }
+
+  clickClear(){}
+  clickDecimal(){}
 
   toggleKeyboard(): void {
     this.showKeyboard = !this.showKeyboard;

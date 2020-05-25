@@ -1,29 +1,29 @@
 <div class="input-calc-compnent">
-	<div>
-		<input matInput type="text" value="0,0" />
-		<mat-icon mat-sufix (click)="toggleKeyboard()" class="keyboard-button">get_app</mat-icon>
+	<div class="input-group">
+		<input class="input-display" matInput type="text" value="{{value}}" />
+		<fa-icon class="keyboard-button" (click)="toggleKeyboard()" [icon]="calcIcon"></fa-icon>
 	</div>
 	<div *ngIf="showKeyboard" class="calc-keyboard">
 		<div class="keys" aria-labelledby="inputKeys">
 			<!-- operators and other keys -->
-			<span tabindex="0">7</span>
-			<span tabindex="0">8</span>
-			<span tabindex="0">9</span>
-			<span tabindex="0">+</span>
-			<span tabindex="0">4</span>
-			<span tabindex="0">5</span>
-			<span tabindex="0">6</span>
-			<span tabindex="0">-</span>
-			<span tabindex="0">1</span>
-			<span tabindex="0">2</span>
-			<span tabindex="0">3</span>
-			<span tabindex="0">x</span>
-			<span tabindex="0">C</span>
-			<span tabindex="0">0</span>
-			<span tabindex="0">.</span>
-			<span tabindex="0">÷</span>
-			<span tabindex="0">=</span>
-			<span tabindex="0">^</span>
+			<span tabindex="0" (click)="clickNumber($event)">7</span>
+			<span tabindex="0" (click)="clickNumber($event)">8</span>
+			<span tabindex="0" (click)="clickNumber($event)">9</span>
+			<span tabindex="0" (click)="clickOperator($event)">+</span>
+			<span tabindex="0" (click)="clickNumber($event)">4</span>
+			<span tabindex="0" (click)="clickNumber($event)">5</span>
+			<span tabindex="0" (click)="clickNumber($event)">6</span>
+			<span tabindex="0" (click)="clickOperator($event)">-</span>
+			<span tabindex="0" (click)="clickNumber($event)">1</span>
+			<span tabindex="0" (click)="clickNumber($event)">2</span>
+			<span tabindex="0" (click)="clickNumber($event)">3</span>
+			<span tabindex="0" (click)="clickOperator($event)">x</span>
+			<span tabindex="0" (click)="clickClear()">C</span>
+			<span tabindex="0" (click)="clickNumber($event)">0</span>
+			<span tabindex="0" (click)="clickDecimal()">.</span>
+			<span tabindex="0" (click)="clickOperator($event)">÷</span>
+			<span tabindex="0" (click)="clickOperator($event)">=</span>
+			<span tabindex="0" (click)="clickOperator($event)">^</span>
 		</div>
 	</div>
 </div>

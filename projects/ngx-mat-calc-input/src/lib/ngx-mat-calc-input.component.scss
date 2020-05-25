@@ -1,73 +1,56 @@
 .calc-keyboard {
+    margin-top: 50px;
     position: absolute;
     z-index: 2;
     color: red;
 }
 
-.keyboard-button {
-    cursor: pointer;
+.input-display {
+    width: 100%;
+    padding: 10px;
+    display: inline-block;
 }
 
-@import url('https://fonts.googleapis.com/css?family=Quicksand:400, 700');
+.keyboard-button {
+    cursor: pointer;
+    display: inline-block;
+}
+
+.input-group {
+    position: absolute;
+}
+
+@import url("https://fonts.googleapis.com/css?family=Quicksand:400, 700");
 
 /* Basic reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-
-    /* Text styling */
-    //font: 100 .4rem "Quicksand", sans-serif;
-    //color: rgb(7, 0, 0);
     text-align: center;
 }
 
-/* Calculator */
 .input-calc-compnent {
     width: 325px;
-    //height: auto;
-    //margin: 100px auto;
     padding: 20px 20px 9px;
-    /* background: #none; */
-    /* background: linear-gradient(#c9dd84, #9fcb96); */
     border-radius: 5px;
 }
 
-/* Top */
 .top span.clear {
     float: left;
 }
 
-/* Screen styling 
-
-.top .screen {
-    height: 90px;
-    width: 100%;
-    padding: 0 10px;
-    background: rgba(154, 185, 188, 0.8);
-    border-radius: 5px;
-    margin-bottom: 10px;
-    font-size: 30px;
-    line-height: 90px;
-    color: white;
-    text-align: right;
-    overflow: auto;
-}
-*/
-
-/* Clear floats */
 .keys {
     overflow: hidden;
 }
 
-/* Keys */
 .keys span,
 .top span.clear {
     float: left;
     position: relative;
     top: 0;
     background: #dadada;
-    font-size: .7em;
+    font-size: 0.7em;
     cursor: pointer;
     width: 33px;
     height: 23px;
