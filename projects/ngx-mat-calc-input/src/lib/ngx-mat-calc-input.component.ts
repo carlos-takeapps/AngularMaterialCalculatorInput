@@ -6,6 +6,7 @@ import { MatFormFieldControl } from '@angular/material/form-field';
 import { NgControl } from "@angular/forms";
 import { Subject } from 'rxjs';
 import { faCalculator } from "@fortawesome/free-solid-svg-icons";
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 
 @Component({
@@ -15,75 +16,75 @@ import { faCalculator } from "@fortawesome/free-solid-svg-icons";
   providers: [{ provide: MatFormFieldControl, useExisting: NgxMatCalcInputComponent }],
 })
 export class NgxMatCalcInputComponent implements MatFormFieldControl<number> {
-  private currentValue: number;
-  private previousValue: number = 0;
-  private currentOperator: string;
+  private _previousValue: number = 0;
+  private _currentOperator: string = null;
+  private _isNewNumber: boolean = true;
+  private _decimalPlace: number = 0;
 
-  private static nextId = 0;
-  private _placeholder: string;
+  public showKeyboard: boolean = false;
 
-  focused: boolean = false;
-  errorState: boolean = false;
-  controlType?: string = "ngx-mat-calc-input";
-  autofilled?: boolean;
+  public focused: boolean = false;
+  public errorState: boolean = false;
+  public controlType?: string = "ngx-mat-calc-input";
+  public autofilled?: boolean;
 
-  calcIcon = faCalculator;
+  public calcIcon = faCalculator;
 
-  private _disabled = false;
-
-  showKeyboard: boolean = false;
-
-  @HostBinding('class.floating')
-  get shouldLabelFloat() {
+  public get shouldLabelFloat() {
     return this.focused || !this.empty;
   }
 
-  get value(): number {
-    return this.currentValue;
-  }
-
-  set value(value: number) {
-    this.currentValue = value;
-    this.stateChanges.next();
-  }
-
+  private static _nextId = 0;
   @HostBinding()
-  id = `ngx-mat-calc-input-${NgxMatCalcInputComponent.nextId++}`;
+  public id = `ngx-mat-calc-input-${NgxMatCalcInputComponent._nextId++}`;
 
+  @HostBinding('attr.aria-describedby')
+  public describedBy = '';
+  public setDescribedByIds(ids: string[]) {
+    this.describedBy = ids.join(' ');
+  }
+
+  private _placeholder: string;
   @Input()
-  get placeholder() {
+  public get placeholder() {
     return this._placeholder;
   }
-  set placeholder(plh) {
+  public set placeholder(plh) {
     this._placeholder = plh;
     this.stateChanges.next();
   }
 
+  private _required = false;
   @Input()
-  get required() {
+  public get required() {
     return this._required;
   }
-  set required(req) {
+  public set required(req) {
     this._required = coerceBooleanProperty(req);
     this.stateChanges.next();
   }
-  private _required = false;
 
-  get empty() {
-    return this.value != null;
-  }
-  stateChanges = new Subject<void>();
-
-  @HostBinding('attr.aria-describedby') describedBy = '';
-  setDescribedByIds(ids: string[]) {
-    this.describedBy = ids.join(' ');
-  }
-
+  private _disabled = false;
   @Input()
   get disabled(): boolean { return this._disabled; }
   set disabled(value: boolean) {
     this._disabled = coerceBooleanProperty(value);
     this.stateChanges.next();
+  }
+
+  public stateChanges = new Subject<void>();
+
+  private _value: number = 0;
+  public get value(): number {
+    return this._value;
+  }
+  public set value(value: number) {
+    this._value = value;
+    this.stateChanges.next();
+  }
+
+  public get empty() {
+    return this.value != null;
   }
 
   constructor(
@@ -98,36 +99,79 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number> {
   }
 
   clickNumber($event): void {
-    this.value = (this.value * 10) + $event.target.textContent;
+
+    debugger;
+
+    if (this._decimalPlace > 0) {
+      let decimalDivisor = (10 ** this._decimalPlace);
+      let decimalAdd = Number((Number($event.target.textContent) / decimalDivisor));
+      if (this._isNewNumber) { 
+        this.value = decimalAdd;
+      }
+      else { 
+        this.value = Number(this.value) + decimalAdd;
+      }
+      ++this._decimalPlace;
+    }
+    else {
+      if (this._isNewNumber) {
+        this.value = Number($event.target.textContent);
+        this._decimalPlace = 0;
+      }
+      else {
+        this.value = Number(this.value * 10) + Number($event.target.textContent);
+      }
+    }
+    this._isNewNumber = false;
   }
 
   clickOperator($event): void {
-    let newOperator = $event.target.textContent;
-    this.previousValue = this.value;
 
-    switch (this.currentOperator) {
+    debugger;
+
+    let newOperator = $event.target.textContent;
+    this._isNewNumber = true;
+    this._decimalPlace = 0;
+
+    switch (this._currentOperator) {
       case "+":
-        this.value = this.previousValue + this.value;
+        this.value = Number(this._previousValue) + Number(this.value);
         break;
       case "-":
-        this.value = this.previousValue - this.value;
+        this.value = Number(this._previousValue) - Number(this.value);
         break;
-      case "*":
-        this.value = this.previousValue * this.value;
+      case "x":
+        this.value = Number(this._previousValue) * Number(this.value);
         break;
       case "/":
-        this.value = this.previousValue / this.value;
+        this.value = Number(this._previousValue) / Number(this.value);
         break;
       case "^":
-        this.value = this.previousValue ^ this.value;
+        this.value = Number(this._previousValue) ** Number(this.value);
         break;
     }
 
-    this.currentOperator = newOperator;
+    if (newOperator === "=") {
+      this._currentOperator = null;
+    }
+    else {
+      this._currentOperator = newOperator;
+    }
+
+    this._previousValue = this.value;
   }
 
-  clickClear(){}
-  clickDecimal(){}
+  clickClear() {
+    this.value = 0;
+    this._decimalPlace = 0;
+    this._currentOperator = null;
+  }
+
+  clickDecimal() {
+    if (this._decimalPlace === 0) {
+      this._decimalPlace = 1;
+    }
+  }
 
   toggleKeyboard(): void {
     this.showKeyboard = !this.showKeyboard;
