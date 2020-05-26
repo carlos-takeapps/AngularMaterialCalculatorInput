@@ -6,7 +6,8 @@ import { MatFormFieldControl } from '@angular/material/form-field';
 import { NgControl } from "@angular/forms";
 import { Subject } from 'rxjs';
 import { faCalculator } from "@fortawesome/free-solid-svg-icons";
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { THIS_EXPR, IfStmt } from '@angular/compiler/src/output/output_ast';
+import { isNumber } from 'util';
 
 
 @Component({
@@ -102,34 +103,50 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number> {
 
     debugger;
 
-    if (this._decimalPlace > 0) {
-      let decimalDivisor = (10 ** this._decimalPlace);
-      let decimalAdd = Number((Number($event.target.textContent) / decimalDivisor));
-      if (this._isNewNumber) { 
-        this.value = decimalAdd;
-      }
-      else { 
-        this.value = Number(this.value) + decimalAdd;
-      }
-      ++this._decimalPlace;
+    let input = Number($event.target.textContent);
+
+    if (isNumber(input)) {
+      this.enterNumber(input);
     }
-    else {
-      if (this._isNewNumber) {
-        this.value = Number($event.target.textContent);
-        this._decimalPlace = 0;
-      }
-      else {
-        this.value = Number(this.value * 10) + Number($event.target.textContent);
-      }
-    }
-    this._isNewNumber = false;
   }
 
   clickOperator($event): void {
 
     debugger;
 
-    let newOperator = $event.target.textContent;
+    this.enterOperator($event.target.textContent);
+  }
+
+  enterNumber(number: number) {
+    if (this._decimalPlace > 0) {
+      let decimalDivisor = (10 ** this._decimalPlace);
+      let decimalAdd = Number((Number(number) / decimalDivisor));
+      if (this._isNewNumber) {
+        this.value = decimalAdd;
+      }
+      else {
+        this.value = Number(this.value) + decimalAdd;
+      }
+      ++this._decimalPlace;
+    }
+    else {
+      if (this._isNewNumber) {
+        this.value = Number(number);
+        this._decimalPlace = 0;
+      }
+      else {
+        this.value = Number(this.value * 10) + Number(number);
+      }
+    }
+    this._isNewNumber = false;
+
+  }
+
+  enterOperator(operator: string) {
+
+    debugger;
+
+    let newOperator = operator;
     this._isNewNumber = true;
     this._decimalPlace = 0;
 
@@ -159,17 +176,45 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number> {
     }
 
     this._previousValue = this.value;
+
   }
 
-  clickClear() {
+  clickClear(): void {
     this.value = 0;
     this._decimalPlace = 0;
     this._currentOperator = null;
   }
 
-  clickDecimal() {
+  clickDecimal(): void {
     if (this._decimalPlace === 0) {
       this._decimalPlace = 1;
+    }
+  }
+
+  keyPressed($event): void {
+
+    debugger;
+    
+    let input = Number($event.key);
+
+    if (isNumber(input)) {
+      this.enterNumber(input);
+    }
+    else {
+      if ($event.key === "/" &&
+        $event.key === "*" &&
+        $event.key === "-" &&
+        $event.key === "+") {
+        this.enterOperator($event.key);
+      }
+      else if ($event.key === ".") {
+        this.clickDecimal();
+      }
+      else if ($event.key === "Delete" &&
+        $event.key === "Backspace" &&
+        $event.key === "Escape") {
+        this.clickClear();
+      }
     }
   }
 
