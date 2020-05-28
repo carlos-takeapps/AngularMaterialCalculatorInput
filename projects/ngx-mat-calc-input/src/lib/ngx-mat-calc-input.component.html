@@ -1,6 +1,6 @@
-<div class="input-calc-compnent" (keyup)="keyPressed($event)">
+<div class="input-calc-compnent" (keydown)="keyPressed($event)">
 	<div class="input-group">
-		<input class="input-display" matInput type="text" value="{{value}}" />
+		<input class="input-display" readonly matInput type="text" value="{{value}}" />
 		<fa-icon class="keyboard-button" (click)="toggleKeyboard()" [icon]="calcIcon"></fa-icon>
 	</div>
 	<div *ngIf="showKeyboard" class="calc-keyboard">
