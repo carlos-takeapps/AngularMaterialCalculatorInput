@@ -6,7 +6,6 @@ import { MatFormFieldControl } from '@angular/material/form-field';
 import { NgControl } from "@angular/forms";
 import { Subject } from 'rxjs';
 import { faCalculator } from "@fortawesome/free-solid-svg-icons";
-import { THIS_EXPR, IfStmt } from '@angular/compiler/src/output/output_ast';
 import { isNumber } from 'util';
 
 
@@ -18,7 +17,9 @@ import { isNumber } from 'util';
 })
 export class NgxMatCalcInputComponent implements MatFormFieldControl<number> {
   private _previousValue: number = 0;
-  private _currentOperator: string = null;
+  private _currentResult: number = 0;
+  private _storedContextOperator: string = null;
+  private _previousOperator: string = null;
   private _isNewNumber: boolean = true;
   private _decimalPlace: number = 0;
 
@@ -101,8 +102,6 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number> {
 
   clickNumber($event): void {
 
-    debugger;
-
     let input = Number($event.target.textContent);
 
     if (isNumber(input)) {
@@ -111,8 +110,6 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number> {
   }
 
   clickOperator($event): void {
-
-    debugger;
 
     this.enterOperator($event.target.textContent);
   }
@@ -144,45 +141,56 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number> {
 
   enterOperator(operator: string) {
 
-    debugger;
-
-    let newOperator = operator;
     this._isNewNumber = true;
     this._decimalPlace = 0;
 
-    switch (this._currentOperator) {
-      case "+":
-        this.value = Number(this._previousValue) + Number(this.value);
-        break;
-      case "-":
-        this.value = Number(this._previousValue) - Number(this.value);
-        break;
-      case "x":
-        this.value = Number(this._previousValue) * Number(this.value);
-        break;
-      case "/":
-        this.value = Number(this._previousValue) / Number(this.value);
-        break;
-      case "^":
-        this.value = Number(this._previousValue) ** Number(this.value);
-        break;
-    }
+    let contextValue = null;
+    let contextOperator = null;
 
-    if (newOperator === "=") {
-      this._currentOperator = null;
+    if (operator === "=" && this._previousOperator === "=") {
+      contextValue = this._previousValue;
+      contextOperator = this._storedContextOperator;
     }
     else {
-      this._currentOperator = newOperator;
+      contextValue = this.value;
+      contextOperator = this._previousOperator;
     }
 
-    this._previousValue = this.value;
+    switch (contextOperator) {
+      case "+":
+        this.value = Number(this._currentResult) + Number(contextValue);
+        break;
+      case "-":
+        this.value = Number(this._currentResult) - Number(contextValue);
+        break;
+      case "x":
+        this.value = Number(this._currentResult) * Number(contextValue);
+        break;
+      case "/":
+      case "÷":
+        this.value = Number(this._currentResult) / Number(contextValue);
+        break;
+      case "^":
+        this.value = Number(this._currentResult) ** Number(contextValue);
+        break;
+    }
 
+    this._currentResult = this.value;
+    this._previousValue = contextValue;
+
+    this._previousOperator = operator;
+
+    if (operator !== "=") {
+      this._storedContextOperator = operator;
+    }
   }
 
   clickClear(): void {
     this.value = 0;
     this._decimalPlace = 0;
-    this._currentOperator = null;
+    this._storedContextOperator = null;
+    this._currentResult = 0;
+    this._previousValue = 0;
   }
 
   clickDecimal(): void {
@@ -193,8 +201,6 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number> {
 
   keyPressed($event): void {
 
-    debugger;
-    
     let input = Number($event.key);
 
     if (isNumber(input)) {
