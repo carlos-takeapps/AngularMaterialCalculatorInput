@@ -6,7 +6,8 @@ import { MatFormFieldControl } from '@angular/material/form-field';
 import { NgControl } from "@angular/forms";
 import { Subject } from 'rxjs';
 import { faCalculator } from "@fortawesome/free-solid-svg-icons";
-import { isNumber } from 'util';
+import { NgxMatCalcInputService } from './ngx-mat-calc-input.service';
+import { CalcOperator } from './ngx-mat-calc-input.enums';
 
 @Component({
   selector: 'ngx-mat-calc-input',
@@ -15,12 +16,6 @@ import { isNumber } from 'util';
   providers: [{ provide: MatFormFieldControl, useExisting: NgxMatCalcInputComponent }],
 })
 export class NgxMatCalcInputComponent implements MatFormFieldControl<number> {
-  private _previousValue: number = 0;
-  private _currentResult: number = 0;
-  private _storedContextOperator: string = null;
-  private _previousOperator: string = null;
-  private _isNewNumber: boolean = true;
-  private _decimalPlace: number = 0;
 
   public showKeyboard: boolean = false;
 
@@ -80,7 +75,9 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number> {
     return this._value;
   }
   public set value(value: number) {
-    if (this.isValidEntry(value)) {
+    let parsedValue = this.tryParseDigitEntry(value);
+
+    if (!isNaN(parsedValue)) {
       this._value = value;
       this.stateChanges.next();
     }
@@ -92,152 +89,64 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number> {
 
   constructor(
     @Optional() @Self() public ngControl: NgControl,
-    fb: FormBuilder, private fm: FocusMonitor, private elRef: ElementRef<HTMLElement>) {
+    fb: FormBuilder,
+    private fm: FocusMonitor,
+    private elRef: ElementRef<HTMLElement>,
+    private calculatorService: NgxMatCalcInputService) {
+
     fm.monitor(elRef.nativeElement, true).subscribe(origin => {
       this.focused = !!origin;
       this.stateChanges.next();
     });
 
-    this.value = 0;
+    this.calculatorService.Value.subscribe(x => {
+      this.value = x;
+    });
   }
 
   clickNumber($event): void {
 
     let input = Number($event.target.textContent);
 
-    if (this.isValidEntry(input)) {
-      this.enterNumber(input);
-    }
+    this.calculatorService.EnterDigit(this.tryParseDigitEntry(input));
   }
 
   clickOperator($event): void {
 
-    this.enterOperator($event.target.textContent);
-  }
-
-
-
-
-
-
-
-
-  
-  enterNumber(number: number) {
-    if (this._decimalPlace > 0) {
-      let decimalDivisor = (10 ** this._decimalPlace);
-      let decimalAdd = Number((Number(number) / decimalDivisor));
-
-      if (this._isNewNumber) {
-        this.value = decimalAdd;
-      }
-      else {
-        this.value = Number(this.value) + decimalAdd;
-      }
-      ++this._decimalPlace;
-    }
-    else {
-      if (this._isNewNumber) {
-        this.value = Number(number);
-        this._decimalPlace = 0;
-      }
-      else {
-        this.value = Number(this.value * 10) + Number(number);
-      }
-    }
-    this._isNewNumber = false;
-
-  }
-
-  enterOperator(operator: string) {
-
-    this._isNewNumber = true;
-    this._decimalPlace = 0;
-
-    let contextValue = null;
-    let contextOperator = null;
-
-    if (operator === "=" && this._previousOperator === "=") {
-      contextValue = this._previousValue;
-      contextOperator = this._storedContextOperator;
-    }
-    else {
-      contextValue = this.value;
-      contextOperator = this._previousOperator;
-    }
-
-    switch (contextOperator) {
-      case "+":
-        this.value = Number(this._currentResult) + Number(contextValue);
-        break;
-      case "-":
-        this.value = Number(this._currentResult) - Number(contextValue);
-        break;
-      case "x":
-      case "*":
-        this.value = Number(this._currentResult) * Number(contextValue);
-        break;
-      case "/":
-      case "÷":
-        this.value = Number(this._currentResult) / Number(contextValue);
-        break;
-      case "^":
-        this.value = Number(this._currentResult) ** Number(contextValue);
-        break;
-    }
-
-    this._currentResult = this.value;
-    this._previousValue = contextValue;
-
-    this._previousOperator = operator;
-
-    if (operator !== "=") {
-      this._storedContextOperator = operator;
-    }
+    this.calculatorService.EnterOperator(this.tryMapKeyToOperator($event.target.textContent));
   }
 
   clickClear(): void {
-    this.value = 0;
-    this._previousValue = 0;
-    this._currentResult = 0;
-    this._storedContextOperator = null;
-    this._previousOperator = null;
-    this._isNewNumber = true;
-    this._decimalPlace = 0;
+    this.calculatorService.ResetContext();
   }
 
   clickDecimal(): void {
-    if (this._decimalPlace === 0) {
-      this._decimalPlace = 1;
-    }
+    this.calculatorService.StartDecimalInput();
   }
 
   keyPressed($event): void {
 
-    let key: string = $event.key.toString();
-    let input = Number(key);
+    let input: string = $event.key.toString();
 
-    if (this.isValidEntry(input)) {
-      this.enterNumber(input);
+    if (input === ".") {
+      this.calculatorService.StartDecimalInput();
+    }
+    else if (input === "Delete" ||
+      input === "Backspace" ||
+      input === "Escape") {
+      this.clickClear();
     }
     else {
-      if (key === "/" ||
-        key === "*" ||
-        key === "-" ||
-        key === "+" ||
-        key === "=") {
-        this.enterOperator(key);
+      let digit = this.tryParseDigitEntry(input);
+      if (!isNaN(digit)) {
+        this.calculatorService.EnterDigit(digit);
       }
-      else if (key === "Enter") {
-        this.enterOperator("=");
-      }
-      else if (key === ".") {
-        this.clickDecimal();
-      }
-      else if (key === "Delete" ||
-        key === "Backspace" ||
-        key === "Escape") {
-        this.clickClear();
+      else {
+        let operator = this.tryMapKeyToOperator(input);
+
+        if (operator) {
+          this.calculatorService.EnterOperator(operator);
+        }
       }
     }
   }
@@ -254,8 +163,37 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number> {
   onContainerClick(event: MouseEvent): void {
   }
 
-  private isValidEntry(number: Number): boolean {
-    return isNumber(number) &&
-      !isNaN(number);
+  private tryParseDigitEntry(input: any): number {
+    return Number(input);
+  }
+
+  private tryMapKeyToOperator(input: string): CalcOperator {
+    let result = null
+
+    switch (input) {
+      case "/":
+      case "÷":
+        result = CalcOperator.Divide;
+        break;
+      case "*":
+      case "x":
+        result = CalcOperator.Multiply;
+        break;
+      case "+":
+        result = CalcOperator.Add;
+        break;
+      case "-":
+        result = CalcOperator.Substract;
+        break;
+      case "^":
+        result = CalcOperator.Power;
+        break;
+      case "Enter":
+      case "=":
+        result = CalcOperator.Equals;
+        break;
+    }
+
+    return result;
   }
 }
