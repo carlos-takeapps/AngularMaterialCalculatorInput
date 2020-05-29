@@ -8,14 +8,7 @@ describe('NgxMatCalcInputService', () => {
   let service: NgxMatCalcInputService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        FormBuilder,
-        FormsModule
-      ],
-      schemas: [NO_ERRORS_SCHEMA]
-    });
+    TestBed.configureTestingModule({});
     service = new NgxMatCalcInputService();
   });
 
