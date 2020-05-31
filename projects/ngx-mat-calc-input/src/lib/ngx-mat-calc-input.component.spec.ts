@@ -3,7 +3,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgxMatCalcInputComponent } from './ngx-mat-calc-input.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { By } from '@angular/platform-browser';
 
 describe('NgxMatCalcInputComponent', () => {
   let component: NgxMatCalcInputComponent;
@@ -37,6 +36,8 @@ describe('NgxMatCalcInputComponent', () => {
     const fixture = TestBed.createComponent(NgxMatCalcInputComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
+    fixture.detectChanges();
+
     expect(compiled.querySelector('.keyboard-button').hasAttribute('hidden')).toEqual(false);
   });
 
@@ -45,28 +46,52 @@ describe('NgxMatCalcInputComponent', () => {
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
 
-    let divButton = fixture.debugElement.query(By.css('keyboard-button'));
-
-    divButton.triggerEventHandler('click', {});
+    compiled.querySelector('.keyboard-button').click();
     fixture.detectChanges();
 
     expect(compiled.querySelector('.calc-keyboard').hasAttribute('hidden')).toEqual(false);
   });
 
-  // it('should hide keyboard', () => {
-  //   const fixture = TestBed.createComponent(NgxMatCalcInputComponent);
-  //   fixture.detectChanges();
-  //   const compiled = fixture.nativeElement;
-  //   compiled.querySelector('.keyboard-button').nativeElement.click();
-  //   expect(compiled.querySelector('.calc-keyboard').hasAttribute('hidden')).toEqual(false);
-  // });
+  it('should hide keyboard', () => {
+    const fixture = TestBed.createComponent(NgxMatCalcInputComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement;
 
-  // it('should update value', () => {
-  //   const fixture = TestBed.createComponent(NgxMatCalcInputComponent);
-  //   fixture.detectChanges();
-  //   const compiled = fixture.nativeElement;
-  //   compiled.querySelector('.keyboard-button').nativeElement.click();
-  //   expect(compiled.querySelector('.calc-keyboard').hasAttribute('hidden')).toEqual(false);
-  // });
+    compiled.querySelector('.keyboard-button').click();
+    compiled.querySelector('.keyboard-button').click();
+    fixture.detectChanges();
 
+    expect(compiled.querySelector('.calc-keyboard')===null).toBeTrue();
+  });
+
+  it('should update value', () => {
+    const fixture = TestBed.createComponent(NgxMatCalcInputComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement;
+
+    compiled.querySelector('.keyboard-button').click();
+    fixture.detectChanges();
+
+    compiled.querySelector('#btn_2').click();
+    fixture.detectChanges();
+
+    expect(compiled.querySelector('.input-display').value).toBe("2");
+  });
+
+  it('should resolve calculation', () => {
+    const fixture = TestBed.createComponent(NgxMatCalcInputComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement;
+
+    compiled.querySelector('.keyboard-button').click();
+    fixture.detectChanges();
+
+    compiled.querySelector('#btn_2').click();
+    compiled.querySelector('#btn_add').click();
+    compiled.querySelector('#btn_5').click();
+    compiled.querySelector('#btn_eq').click();
+    fixture.detectChanges();
+
+    expect(compiled.querySelector('.input-display').value).toBe("7");
+  });
 });
