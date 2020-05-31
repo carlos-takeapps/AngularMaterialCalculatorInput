@@ -24,8 +24,8 @@ jobs:
       - name: npm install and npm run build
         run: |
           npm i
-          npm run build --ngx-mat-calc-input --prod
-          npm run build -- --prod
+          npm run build_library
+          npm run build_app
       #- name: Push Build to Releases
       #  uses: ncipollo/release-action@v1
       #  with:
