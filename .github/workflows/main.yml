@@ -26,8 +26,8 @@ jobs:
           npm i
           npm run build --ngx-mat-calc-input --prod
           npm run build -- --prod
-      - name: Push Build to Releases
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: "dist/angular-githubaction/*"
-          token: ${{ secrets.CI_TOKEN }} 
+      #- name: Push Build to Releases
+      #  uses: ncipollo/release-action@v1
+      #  with:
+      #    artifacts: "dist/angular-githubaction/*"
+      #    token: ${{ secrets.CI_TOKEN }} 
