@@ -1,4 +1,6 @@
+======================================================
 **THE COMPONENT** 
+======================================================
 
 # NgxMatCalcInput
 
@@ -16,8 +18,9 @@ Run `ng test ngx-mat-calc-input` to execute the unit tests via [Karma](https://k
 
 
 
-
+======================================================
 **A SIMPLE APP TO SEE THE COMPONENT IN ACTION** 
+======================================================
 
 # AngularMaterialCalculatorInput
 
