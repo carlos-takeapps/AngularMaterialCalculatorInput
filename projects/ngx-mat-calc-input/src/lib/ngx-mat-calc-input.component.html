@@ -1,0 +1,29 @@
+<div class="input-calc-compnent" (keydown)="keyPressed($event)">
+	<div class="input-group">
+		<input class="input-display" readonly matInput type="text" value="{{value}}" />
+		<fa-icon class="keyboard-button" (click)="toggleKeyboard()" [icon]="calcIcon"></fa-icon>
+	</div>
+	<div *ngIf="showKeyboard" class="calc-keyboard">
+		<div class="keys" aria-labelledby="inputKeys">
+			<!-- operators and other keys -->
+			<span id="btn_7" tabindex="0" (click)="clickNumber($event)">7</span>
+			<span id="btn_8" tabindex="0" (click)="clickNumber($event)">8</span>
+			<span id="btn_9" tabindex="0" (click)="clickNumber($event)">9</span>
+			<span id="btn_add" tabindex="0" (click)="clickOperator($event)">+</span>
+			<span id="btn_4" tabindex="0" (click)="clickNumber($event)">4</span>
+			<span id="btn_5" tabindex="0" (click)="clickNumber($event)">5</span>
+			<span id="btn_6" tabindex="0" (click)="clickNumber($event)">6</span>
+			<span id="btn_sub" tabindex="0" (click)="clickOperator($event)">-</span>
+			<span id="btn_1" tabindex="0" (click)="clickNumber($event)">1</span>
+			<span id="btn_2" tabindex="0" (click)="clickNumber($event)">2</span>
+			<span id="btn_3" tabindex="0" (click)="clickNumber($event)">3</span>
+			<span id="btn_x" tabindex="0" (click)="clickOperator($event)">x</span>
+			<span id="btn_C" tabindex="0" (click)="clickClear()">C</span>
+			<span id="btn_0" tabindex="0" (click)="clickNumber($event)">0</span>
+			<span id="btn_dec" tabindex="0" (click)="clickDecimal()">.</span>
+			<span id="btn_add" tabindex="0" (click)="clickOperator($event)">÷</span>
+			<span id="btn_eq" tabindex="0" (click)="clickOperator($event)">=</span>
+			<span id="btn_pow" tabindex="0" (click)="clickOperator($event)">^</span>
+		</div>
+	</div>
+</div>

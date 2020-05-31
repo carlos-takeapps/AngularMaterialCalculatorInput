@@ -22,10 +22,10 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('AngularMaterialCalculatorInput');
   });
 
-  it('should render title', () => {
+  it('should display Calc Input label', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('AngularMaterialCalculatorInput app is running!');
+    expect(compiled.querySelector('.content mat-label').textContent).toContain('Calc Input');
   });
 });

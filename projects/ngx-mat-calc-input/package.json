@@ -5,6 +5,12 @@
     "@angular/common": "^9.1.7",
     "@angular/core": "^9.1.7",
     "@angular/material": "^9.2.4",
+    "@angular/animations": "~9.1.7",
+    "@angular/cdk": "^9.2.4",
+    "@fortawesome/angular-fontawesome": "*",
+    "@fortawesome/fontawesome-svg-core": "*",
+    "@fortawesome/free-solid-svg-icons": "*",
     "tslib": "^1.10.0"
-  }
+  },
+  "dependencies": {}
 }
