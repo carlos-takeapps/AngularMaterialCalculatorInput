@@ -1,4 +1,4 @@
-** THE COMPONENT ** 
+**THE COMPONENT** 
 
 # NgxMatCalcInput
 
@@ -15,7 +15,7 @@ After building your library with `ng build ngx-mat-calc-input`, go to the dist f
 Run `ng test ngx-mat-calc-input` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
 
-** A SIMPLE APP TO SEE THE COMPONENT IN ACTION ** 
+**A SIMPLE APP TO SEE THE COMPONENT IN ACTION** 
 
 # AngularMaterialCalculatorInput
 
