@@ -27,8 +27,8 @@ jobs:
           npm run build_library
           npm run build_app
 
-      - name: Run Karma Tests
-        uses: ahmedrizwan/angular-karma-test-action    
+      #- name: Run Karma Tests
+      #  uses: ahmedrizwan/angular-karma-test-action    
          
       #- name: Push Build to Releases
       #  uses: ncipollo/release-action@v1
