@@ -8,7 +8,7 @@ jobs:
         node-version: [12.x]
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Cache node modules
         uses: actions/cache@v1
@@ -26,9 +26,10 @@ jobs:
           npm i
           npm run build_library
           npm run build_app
-      - name: run tests
-        run: |
-          npm run test          
+
+      #- name: Run Karma Tests
+      #  uses: ahmedrizwan/angular-karma-test-action    
+         
       #- name: Push Build to Releases
       #  uses: ncipollo/release-action@v1
       #  with:
