@@ -1,3 +1,5 @@
+![Build Angluar](https://github.com/carlos-takeapps/AngularMaterialCalculatorInput/workflows/Build%20Angluar/badge.svg)
+
 # THE COMPONENT
 
 ## NgxMatCalcInput
