@@ -113,7 +113,7 @@ describe('NgxMatCalcInputService', () => {
   it('Test division by zero', (done: DoneFn) => {
     service.EnterDigit(3);
     service.EnterOperator(CalcOperator.Divide);
-    service.EnterDigit(1);
+    service.EnterDigit(0);
     service.EnterOperator(CalcOperator.Equals);
 
     let value = service.Value.subscribe(value => {
