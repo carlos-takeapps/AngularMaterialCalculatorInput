@@ -6,7 +6,7 @@
     "start": "ng serve",
     "build_library": "ng build ngx-mat-calc-input --prod",
     "build_app": "ng build --prod",
-    "test": "ng test ngx-mat-calc-input",
+    "test": "ng test ngx-mat-calc-input --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
