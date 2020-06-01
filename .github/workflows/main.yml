@@ -17,17 +17,25 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
+      
       - name: Node ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm install and npm run build
+          
+      - name: npm install
         run: |
           npm i
+          
+      - name: npm run build
+        run: |
           npm run build_library
           npm run build_app
+
+      - name: npm run tests
+        run: |
           npm run test
-         
+          
       #- name: Push Build to Releases
       #  uses: ncipollo/release-action@v1
       #  with:
