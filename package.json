@@ -1,6 +1,8 @@
 {
-  "name": "angular-material-calculator-input",
+  "name": "NgxMatCalculatorInput",
   "version": "0.0.0",
+  "description": "A calculator input Material Component",
+  "author": "Carlos Salvatore - TakeApps",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
