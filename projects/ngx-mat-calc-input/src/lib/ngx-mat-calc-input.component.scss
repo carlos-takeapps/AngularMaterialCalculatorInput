@@ -1,40 +1,30 @@
 .calc-keyboard {
-  margin-top: 50px;
+  margin-top: 20px;
   position: absolute;
   z-index: 2;
-  color: red;
+  background-color: #ffffff;
+  opacity: 100%;
 }
 
 .input-display {
-  display: inline-block;
+  max-width: 75%;
+  text-align: right;
 }
 
 .keyboard-button {
   cursor: pointer;
-  display: inline-block;
-  padding: 10px;
+  padding: 0px 5px 0px 7px;
+  margin: 0px;
+  border: 0px;
+  background-color: #ffffff;
+  border-color: #ffffff;
+  color: #795ebd; 
 }
 
-.input-group {
-  position: absolute;
-}
-
-/* Basic reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  text-align: center;
-}
-
-.input-calc-compnent {
-  width: 325px;
+.input-calc-component {
+  width: 100%;
   padding: 20px 20px 9px;
   border-radius: 5px;
-}
-
-.top span.clear {
-  float: left;
 }
 
 .keys {
@@ -63,6 +53,18 @@
   outline: 0 solid;
   /* hover and active state transitions */
   transition: all 0.2s ease;
+}
+
+.keys td{
+  padding: 0px;
+}
+
+.double-width{
+  width: 73px !important;
+}
+
+.double-height{
+  height: 55px !important;
 }
 
 /* hover effects */
