@@ -3,6 +3,10 @@
   "dest": "../../dist/ngx-mat-calc-input",
   "lib": {
     "entryFile": "src/public-api.ts",
+    "umdModuleIds": {
+      "@fortawesome/angular-fontawesome": "angularFontawesome",
+      "@fortawesome/free-solid-svg-icons": "freeSolidSvgIcons"
+    },
     "cssUrl": "inline",
     "styleIncludePaths": [
       "src/assets/styles",

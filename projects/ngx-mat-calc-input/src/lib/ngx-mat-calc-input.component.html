@@ -1,8 +1,8 @@
 <div class="input-calc-component" (keydown)="keyPressed($event)">
 	<div>
 		<input class="input-display" readonly matInput type="text" value="{{value}}" />
-		<button mat-button matSuffix mat-icon-button aria-label="Show/Hide" class="keyboard-button">
-			<fa-icon (click)="toggleKeyboard()" [icon]="calcIcon"></fa-icon>
+		<button mat-button matSuffix mat-icon-button aria-label="Show/Hide" class="keyboard-button" (click)="toggleKeyboard()" >
+			<fa-icon [icon]="calcIcon"></fa-icon>
 		</button>
 	</div>
 	<div *ngIf="showKeyboard" class="calc-keyboard">
