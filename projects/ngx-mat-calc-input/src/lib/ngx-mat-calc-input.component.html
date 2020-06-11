@@ -2,7 +2,7 @@
 	<div>
 		<input class="input-display" readonly matInput type="text" value="{{value}}" />
 		<button mat-button matSuffix mat-icon-button aria-label="Show/Hide" class="keyboard-button" (click)="toggleKeyboard()" >
-			<fa-icon [icon]="calcIcon"></fa-icon>
+			<fa-icon [ngClass]="{'calc-icon-active':showKeyboard}" [icon]="calcIcon"></fa-icon>
 		</button>
 	</div>
 	<div *ngIf="showKeyboard" class="calc-keyboard">
