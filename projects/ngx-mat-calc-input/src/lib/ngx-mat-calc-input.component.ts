@@ -1,5 +1,5 @@
 import { Component, HostBinding, Input, Optional, Self, ElementRef, EventEmitter, Output } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms'
+import { ControlValueAccessor } from '@angular/forms'
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { FormBuilder } from '@angular/forms';
