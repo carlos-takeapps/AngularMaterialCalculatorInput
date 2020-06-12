@@ -34,7 +34,6 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number>, Co
 
   public calcIcon = faCalculator;
 
-
   constructor(
     @Optional() @Self() public ngControl: NgControl,
     fb: FormBuilder,
@@ -44,9 +43,11 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number>, Co
 
     fm.monitor(elRef.nativeElement, true)
       .subscribe(origin => {
+        if(origin){
         this.focused = !!origin;
+        this.showKeyboard = this.showKeyboard && this.focused;
         this.stateChanges.next();
-      });
+      }});
 
     if (this.ngControl != null) {
       this.ngControl.valueAccessor = this;
@@ -85,7 +86,6 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number>, Co
   /* ---------------------------------------------------------
    MatFormFieldControl<number> Interface
   --------------------------------------------------------- */
-
   public get shouldLabelFloat() {
     return this.focused || !this.empty;
   }
@@ -157,7 +157,6 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number>, Co
   /* ---------------------------------------------------------
    Control behaviour 
   --------------------------------------------------------- */
-
   clickNumber($event): void {
 
     let input = Number($event.target.textContent);
@@ -206,7 +205,6 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number>, Co
   }
 
   toggleKeyboard(): void {
-    this.focused = true;
     this.showKeyboard = !this.showKeyboard;
   }
 
