@@ -6,12 +6,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { NgxMatCalcInputModule } from 'ngx-mat-calc-input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     MatFormFieldModule,
 
