@@ -317,7 +317,12 @@
  
   <mat-form-field>
     <mat-label>Calc Input</mat-label>
-    <ngx-mat-calc-input></ngx-mat-calc-input>
+    <ngx-mat-calc-input [(ngModel)]="calcValue"></ngx-mat-calc-input>
   </mat-form-field>
 
+
+  <div (click)="addCalcValue()">
+    value: {{calcValue}}
+  </div>
+  
 </div>

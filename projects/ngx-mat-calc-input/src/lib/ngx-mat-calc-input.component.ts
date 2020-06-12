@@ -1,4 +1,5 @@
-import { Component, HostBinding, Input, Optional, Self, ElementRef } from '@angular/core';
+import { Component, HostBinding, Input, Optional, Self, ElementRef, EventEmitter, Output } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms'
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { FormBuilder } from '@angular/forms';
@@ -15,9 +16,16 @@ import { CalcOperator } from './ngx-mat-calc-input.enums';
   styleUrls: ['./ngx-mat-calc-input.component.scss'],
   providers: [{ provide: MatFormFieldControl, useExisting: NgxMatCalcInputComponent }],
 })
-export class NgxMatCalcInputComponent implements MatFormFieldControl<number> {
+export class NgxMatCalcInputComponent implements MatFormFieldControl<number>, ControlValueAccessor {
+  private _showKeyboard: boolean;
 
-  public showKeyboard: boolean = false;
+  public get showKeyboard(): boolean {
+    return this.focused && this._showKeyboard;
+  };
+
+  public set showKeyboard(show: boolean) {
+    this._showKeyboard = show;
+  }
 
   public focused: boolean = false;
   public errorState: boolean = false;
@@ -25,6 +33,58 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number> {
   public autofilled?: boolean;
 
   public calcIcon = faCalculator;
+
+
+  constructor(
+    @Optional() @Self() public ngControl: NgControl,
+    fb: FormBuilder,
+    private fm: FocusMonitor,
+    private elRef: ElementRef<HTMLElement>,
+    private calculatorService: NgxMatCalcInputService) {
+
+    fm.monitor(elRef.nativeElement, true)
+      .subscribe(origin => {
+        this.focused = !!origin;
+        this.stateChanges.next();
+      });
+
+    if (this.ngControl != null) {
+      this.ngControl.valueAccessor = this;
+    }
+
+    this.calculatorService.Value.subscribe(x => {
+      this.value = x;
+    });
+  }
+
+  /* ---------------------------------------------------------
+   ControlValueAccessor Interface
+  --------------------------------------------------------- */
+  public onChange: any = () => { }
+  public onTouch: any = () => { }
+
+  @Output()
+  valueChange = new EventEmitter();
+
+  writeValue(value: number) {
+    this.value = value;
+  }
+
+  registerOnChange(fn: any) {
+    this.onChange = fn
+  }
+
+  registerOnTouched(fn: any) {
+    this.onTouch = fn
+  }
+
+  setDisabledState?(isDisabled: boolean): void {
+    this._disabled = isDisabled;
+  }
+
+  /* ---------------------------------------------------------
+   MatFormFieldControl<number> Interface
+  --------------------------------------------------------- */
 
   public get shouldLabelFloat() {
     return this.focused || !this.empty;
@@ -71,6 +131,7 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number> {
   public stateChanges = new Subject<void>();
 
   private _value: number = 0;
+  @Input()
   public get value(): number {
     return this._value;
   }
@@ -80,6 +141,9 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number> {
     if (!isNaN(parsedValue)) {
       this._value = value;
       this.stateChanges.next();
+
+      this.onChange(value);
+      this.valueChange.emit(value);
     }
   }
 
@@ -87,22 +151,12 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number> {
     return this.value != null;
   }
 
-  constructor(
-    @Optional() @Self() public ngControl: NgControl,
-    fb: FormBuilder,
-    private fm: FocusMonitor,
-    private elRef: ElementRef<HTMLElement>,
-    private calculatorService: NgxMatCalcInputService) {
-
-    fm.monitor(elRef.nativeElement, true).subscribe(origin => {
-      this.focused = !!origin;
-      this.stateChanges.next();
-    });
-
-    this.calculatorService.Value.subscribe(x => {
-      this.value = x;
-    });
+  onContainerClick(event: MouseEvent): void {
   }
+
+  /* ---------------------------------------------------------
+   Control behaviour 
+  --------------------------------------------------------- */
 
   clickNumber($event): void {
 
@@ -152,15 +206,13 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number> {
   }
 
   toggleKeyboard(): void {
+    this.focused = true;
     this.showKeyboard = !this.showKeyboard;
   }
 
   ngOnDestroy() {
     this.stateChanges.complete();
     this.fm.stopMonitoring(this.elRef.nativeElement);
-  }
-
-  onContainerClick(event: MouseEvent): void {
   }
 
   private tryParseDigitEntry(input: any): number {
