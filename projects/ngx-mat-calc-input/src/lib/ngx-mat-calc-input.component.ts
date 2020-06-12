@@ -45,6 +45,7 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number>, Co
     fm.monitor(elRef.nativeElement, true)
       .subscribe(origin => {
         this.focused = !!origin;
+        this.showKeyboard = this.showKeyboard && this.focused;
         this.stateChanges.next();
       });
 
@@ -206,7 +207,6 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number>, Co
   }
 
   toggleKeyboard(): void {
-    this.focused = true;
     this.showKeyboard = !this.showKeyboard;
   }
 
