@@ -1,3 +1,14 @@
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
 
 .input-calc-component {
   width: 100%;
@@ -46,7 +57,7 @@
   width: 100%;
 }
 
-.keys{
+.keys {
   
   td:hover {
     background: #3f51b5;
@@ -61,6 +72,10 @@
     content: "";
     display: block;
     padding-top: 50%;
+  }
+
+  td:last-child {
+    padding-top: 0%;
   }
 
   td {
@@ -81,7 +96,10 @@
     transition: all 0.2s ease;
     padding: 0px;
     line-height: 100%;
-
   }
+}
+
+.lastRowKey:before {
+  padding-top: 25% !important;
 }
 

@@ -1,38 +1,38 @@
 <div class="input-calc-component" (keydown)="keyPressed($event)">
 	<div>
-		<input class="input-display" readonly matInput type="text" [(ngModel)]="value"  />
-		<button mat-button matSuffix mat-icon-button aria-label="Show/Hide" class="keyboard-button" (click)="toggleKeyboard()" >
+		<input class="input-display" matInput type="number" [readonly]="showKeyboard" [(ngModel)]="value" />
+		<button mat-button matSuffix mat-icon-button aria-label="Show/Hide" class="keyboard-button" (click)="toggleKeyboard()">
 			<fa-icon [ngClass]="{'calc-icon-active':showKeyboard}" [icon]="calcIcon"></fa-icon>
 		</button>
 	</div>
 	<div *ngIf="showKeyboard" class="calc-keyboard">
 		<table class="keys" aria-labelledby="inputKeys">
 			<tr>
-				<td id="btn_C" tabindex="0" (click)="clickClear()"><div>C</div></td>
-				<td id="btn_div" tabindex="0" (click)="clickOperator($event)"><div>/</div></td>
-				<td id="btn_x" tabindex="0" (click)="clickOperator($event)"><div>X</div></td>
-				<td id="btn_sub" tabindex="0" (click)="clickOperator($event)"><div>-</div></td>
+				<td id="btn_C" tabindex="0" (click)="clickClear()">C</td>
+				<td id="btn_div" tabindex="0" (click)="clickOperator($event)">/</td>
+				<td id="btn_x" tabindex="0" (click)="clickOperator($event)">X</td>
+				<td id="btn_sub" tabindex="0" (click)="clickOperator($event)">-</td>
 			</tr>
 			<tr>
-				<td id="btn_7" tabindex="0" (click)="clickNumber($event)"><div>7</div></td>
-				<td id="btn_8" tabindex="0" (click)="clickNumber($event)"><div>8</div></td>
-				<td id="btn_9" tabindex="0" (click)="clickNumber($event)"><div>9</div></td>
-				<td rowspan="2" id="btn_add" tabindex="0" (click)="clickOperator($event)"><div>+</div></td>
+				<td id="btn_7" tabindex="0" (click)="clickNumber($event)">7</td>
+				<td id="btn_8" tabindex="0" (click)="clickNumber($event)">8</td>
+				<td id="btn_9" tabindex="0" (click)="clickNumber($event)">9</td>
+				<td rowspan="2" id="btn_add" tabindex="0" (click)="clickOperator($event)">+</td>
 			</tr>
 			<tr>
-				<td id="btn_4" tabindex="0" (click)="clickNumber($event)"><div>4</div></td>
-				<td id="btn_5" tabindex="0" (click)="clickNumber($event)"><div>5</div></td>
-				<td id="btn_6" tabindex="0" (click)="clickNumber($event)"><div>6</div></td>
+				<td id="btn_4" tabindex="0" (click)="clickNumber($event)">4</td>
+				<td id="btn_5" tabindex="0" (click)="clickNumber($event)">5</td>
+				<td id="btn_6" tabindex="0" (click)="clickNumber($event)">6</td>
 			</tr>
 			<tr>
-				<td id="btn_1" tabindex="0" (click)="clickNumber($event)"><div>1</div></td>
-				<td id="btn_2" tabindex="0" (click)="clickNumber($event)"><div>2</div></td>
-				<td id="btn_3" tabindex="0" (click)="clickNumber($event)"><div>3</div></td>
-				<td rowspan="2" id="btn_eq" tabindex="0" (click)="clickOperator($event)"><div>=</div></td>
+				<td id="btn_1" tabindex="0" (click)="clickNumber($event)">1</td>
+				<td id="btn_2" tabindex="0" (click)="clickNumber($event)">2</td>
+				<td id="btn_3" tabindex="0" (click)="clickNumber($event)">3</td>
+				<td rowspan="2" id="btn_eq" tabindex="0" (click)="clickOperator($event)">=</td>
 			</tr>
 			<tr>
-				<td colspan="2" id="btn_0" tabindex="0" (click)="clickNumber($event)"><div>0</div></td>
-				<td id="btn_dec" tabindex="0" (click)="clickDecimal()"><div>.</div></td>
+				<td colspan="2" id="btn_0" class="lastRowKey" tabindex="0" (click)="clickNumber($event)">0</td>
+				<td id="btn_dec" class="lastRowKey" tabindex="0" (click)="clickDecimal()">.</td>
 			</tr>
 		</table>
 	</div>
