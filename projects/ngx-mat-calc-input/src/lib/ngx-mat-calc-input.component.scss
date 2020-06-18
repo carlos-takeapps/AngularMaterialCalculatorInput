@@ -46,7 +46,7 @@
   width: 100%;
 }
 
-.keys{
+.keys {
   
   td:hover {
     background: #3f51b5;
@@ -61,6 +61,10 @@
     content: "";
     display: block;
     padding-top: 50%;
+  }
+
+  td:last-child {
+    padding-top: 0%;
   }
 
   td {
@@ -81,7 +85,10 @@
     transition: all 0.2s ease;
     padding: 0px;
     line-height: 100%;
-
   }
+}
+
+.lastRowKey:before {
+  padding-top: 25% !important;
 }
 
