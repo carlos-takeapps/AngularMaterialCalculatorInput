@@ -1,6 +1,6 @@
 <div class="input-calc-component" (keydown)="keyPressed($event)">
 	<div>
-		<input class="input-display" readonly matInput type="text" [(ngModel)]="value" />
+		<input class="input-display" matInput type="number" [readonly]="showKeyboard" [(ngModel)]="value" />
 		<button mat-button matSuffix mat-icon-button aria-label="Show/Hide" class="keyboard-button" (click)="toggleKeyboard()">
 			<fa-icon [ngClass]="{'calc-icon-active':showKeyboard}" [icon]="calcIcon"></fa-icon>
 		</button>

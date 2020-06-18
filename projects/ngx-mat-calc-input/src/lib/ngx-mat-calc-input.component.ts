@@ -179,6 +179,8 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number>, Co
 
   keyPressed($event): void {
 
+    if(!this.showKeyboard) return;
+
     let input: string = $event.key.toString();
 
     if (input === ".") {
@@ -226,7 +228,7 @@ export class NgxMatCalcInputComponent implements MatFormFieldControl<number>, Co
         result = CalcOperator.Divide;
         break;
       case "*":
-      case "x":
+      case "X":
         result = CalcOperator.Multiply;
         break;
       case "+":
