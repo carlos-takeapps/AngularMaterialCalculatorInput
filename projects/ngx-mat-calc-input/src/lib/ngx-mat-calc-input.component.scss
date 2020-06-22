@@ -6,13 +6,14 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
 
 .input-calc-component {
   width: 100%;
   border-radius: 5px;
+  text-align: right;
 }
 
 .calc-icon {
@@ -31,6 +32,7 @@ input[type=number] {
 .calc-keyboard {
   padding: 5px;
   position: absolute;
+  right: 0;
   z-index: 2;
   background-color: #ffffff;
   opacity: 100%;
@@ -40,6 +42,7 @@ input[type=number] {
   outline: 0 solid;
   margin-top: 5px;
   width: 100%;
+  max-width: 300px;
 }
 
 .keyboard-button {
@@ -55,10 +58,13 @@ input[type=number] {
 .keys {
   overflow: hidden;
   width: 100%;
+
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  border-collapse: separate;
 }
 
 .keys {
-  
   td:hover {
     background: #3f51b5;
     color: white;
@@ -102,4 +108,3 @@ input[type=number] {
 .lastRowKey:before {
   padding-top: 25% !important;
 }
-

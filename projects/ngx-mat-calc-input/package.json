@@ -1,6 +1,6 @@
 {
   "name": "ngx-mat-calc-input",
-  "version": "0.1.10",
+  "version": "0.1.12",
   "description": "A calculator input Material Component",
   "author": "Carlos Salvatore - TakeApps",
   "peerDependencies": {
