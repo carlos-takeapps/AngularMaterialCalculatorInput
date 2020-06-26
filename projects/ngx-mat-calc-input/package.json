@@ -1,6 +1,6 @@
 {
   "name": "ngx-mat-calc-input",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "A calculator input Material Component",
   "author": "Carlos Salvatore - TakeApps",
   "peerDependencies": {
@@ -17,6 +17,6 @@
     "puppeteer": "^3.2.0"
   },
   "dependencies": {
-    "tslib": "^1.10.0"
-  }
+    "tslib": "^2.0.0"
+}
 }
